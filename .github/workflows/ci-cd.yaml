@@ -25,9 +25,9 @@ jobs:
       run: dotnet build --no-restore
 
     - id: test
-      if: steps.build.outcome == 'success' 
+      if: steps.build.outcome == 'success'
       name: Test
-      run: dotnet test "WiredBrainCoffee.Tests/WiredBrainCoffee.Tests.csproj" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+      run: dotnet test "WiredBrain.Tests/WiredBrain.Tests.csproj" --collect "XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
 
     - id: coverage
       name: Code Coverage Report
