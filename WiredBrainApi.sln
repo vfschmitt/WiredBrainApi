@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{73A75436-0EC3-4918-AD97-EEFB16D7B463}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WiredBrainApi.Web", "WiredBrainApi.Web\WiredBrainApi.Web.csproj", "{3EB4808A-B881-44B1-8286-79356FA69DD7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WiredBrain.Tests", "WiredBrain.Tests\WiredBrain.Tests.csproj", "{946AAB53-7F72-4A6C-8E2D-3B3B5001339B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3EB4808A-B881-44B1-8286-79356FA69DD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EB4808A-B881-44B1-8286-79356FA69DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EB4808A-B881-44B1-8286-79356FA69DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EB4808A-B881-44B1-8286-79356FA69DD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{946AAB53-7F72-4A6C-8E2D-3B3B5001339B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{946AAB53-7F72-4A6C-8E2D-3B3B5001339B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{946AAB53-7F72-4A6C-8E2D-3B3B5001339B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{946AAB53-7F72-4A6C-8E2D-3B3B5001339B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {22F2D4F6-95AF-4EE1-8965-775002A11D44}
+	EndGlobalSection
+EndGlobal

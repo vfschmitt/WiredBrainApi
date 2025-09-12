@@ -1,0 +1,6 @@
+@WiredBrainApi_HostAddress = http://localhost:5154
+
+GET {{WiredBrainApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
