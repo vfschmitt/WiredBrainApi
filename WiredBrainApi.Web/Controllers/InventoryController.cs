@@ -14,7 +14,7 @@ namespace WiredBrainApi.Controllers
             _inventoryService = inventoryService;            
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public ActionResult<LocationInventory> Get(int id)
         {
             var inventory = _inventoryService.GetLocationInventory(id);
