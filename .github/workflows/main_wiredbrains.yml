@@ -36,11 +36,11 @@ jobs:
            
       - id: coverage
         name: Generate Coverage Report
-        uses: danielpalme/ReportGenerator-GitHub-Action@5.3.8
+        uses: danielpalme/ReportGenerator-GitHub-Action@5
         with:
-          reports: WiredBrain.Tests/TestResults/**/coverage.cobertura.xml
+          reports: TestResults/**/coverage.cobertura.xml
           targetdir: coverage-report
-          reporttypes: HtmlInline_AzurePipelines;Cobertura
+          reporttypes: "HtmlInline_AzurePipelines;Cobertura"
           
       - name: dotnet publish
         run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
@@ -70,5 +70,6 @@ jobs:
           package: .
 
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EA825A53AF1642A98D4B9D60ED91F044 }}
+
 
 
