@@ -29,23 +29,27 @@ jobs:
       - id: test
         if: steps.build.outcome == 'success'
         name: Test
-        run: dotnet test "WiredBrain.Tests/WiredBrain.Tests.csproj" `
-           --collect "XPlat Code Coverage" `
-           --results-directory TestResults `
-           -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+        run: |
+          dotnet test "WiredBrain.Tests/WiredBrain.Tests.csproj" `
+            --collect "XPlat Code Coverage" `
+            --results-directory TestResults `
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
 
-      - name: Install ReportGenerator (fallback)
+      - name: Debug TestResults folder
+        run: dir /s TestResults
+
+      - name: Install ReportGenerator
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
       - name: Add .dotnet tools to PATH
-        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-           
+        run: echo "$env:USERPROFILE\.dotnet\tools" >> $env:GITHUB_PATH
+
       - id: coverage
         name: Generate Coverage Report
-        uses: danielpalme/ReportGenerator-GitHub-Action@5
+        uses: danielpalme/ReportGenerator-GitHub-Action@v5
         with:
-          reports: TestResults/**/coverage.cobertura.xml
-          targetdir: coverage-report
+          reports: "TestResults/*/coverage.cobertura.xml"
+          targetdir: "coverage-report"
           reporttypes: "HtmlInline_AzurePipelines;Cobertura"
           
       - name: dotnet publish
@@ -76,6 +80,7 @@ jobs:
           package: .
 
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EA825A53AF1642A98D4B9D60ED91F044 }}
+
 
 
 
