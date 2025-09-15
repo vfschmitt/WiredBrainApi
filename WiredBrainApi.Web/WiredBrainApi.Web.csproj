@@ -10,21 +10,26 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
-    <!-- React client build integration -->
-    <PropertyGroup>
-      <ClientDir>..\wiredbrain-client</ClientDir>
-      <ClientBuildCmd>npm run build</ClientBuildCmd>
-    </PropertyGroup>
+  <!-- React client integration (copy-only by default). Set BuildClient=true to force build. -->
+  <PropertyGroup>
+    <ClientDir>..\wiredbrain-client</ClientDir>
+    <ClientBuildCmd>npm run build</ClientBuildCmd>
+    <BuildClient>false</BuildClient>
+  </PropertyGroup>
 
-    <Target Name="BuildClient" BeforeTargets="PrepareForPublish">
-      <Message Text="Building React client..." Importance="high" />
-      <Exec WorkingDirectory="$(ClientDir)" Command="npm install" Condition="!Exists('$(ClientDir)\node_modules')" />
-      <Exec WorkingDirectory="$(ClientDir)" Command="$(ClientBuildCmd)" />
-      <ItemGroup>
-        <DistFiles Include="$(ClientDir)\dist\**\*.*" />
-      </ItemGroup>
-      <Message Text="Copying client build to wwwroot" Importance="high" />
-      <Copy SourceFiles="@(DistFiles)" DestinationFiles="@(DistFiles->'%(FullPath)'.Replace('$(ClientDir)\\dist','wwwroot'))" SkipUnchangedFiles="true" />
-    </Target>
+  <Target Name="BuildReactClient" Condition="'$(BuildClient)' == 'true'" BeforeTargets="PrepareForPublish">
+    <Message Text="[React] Building client because BuildClient=$(BuildClient)" Importance="high" />
+    <Exec WorkingDirectory="$(ClientDir)" Command="npm ci" Condition="Exists('$(ClientDir)\package-lock.json')" />
+    <Exec WorkingDirectory="$(ClientDir)" Command="npm install" Condition="!Exists('$(ClientDir)\package-lock.json')" />
+    <Exec WorkingDirectory="$(ClientDir)" Command="$(ClientBuildCmd)" />
+  </Target>
+
+  <Target Name="CopyClientDist" AfterTargets="BuildReactClient" BeforeTargets="PrepareForPublish">
+    <ItemGroup>
+      <DistFiles Include="$(ClientDir)\dist\**\*.*" />
+    </ItemGroup>
+    <Message Text="[React] Copying client dist (files: @(DistFiles->Count()))" Importance="high" Condition="'%(DistFiles.Identity)' != ''" />
+    <Copy SourceFiles="@(DistFiles)" DestinationFiles="@(DistFiles->'%(FullPath)'.Replace('$(ClientDir)\\dist','wwwroot'))" SkipUnchangedFiles="true" Condition="'%(DistFiles.Identity)' != ''" />
+  </Target>
 
 </Project>
