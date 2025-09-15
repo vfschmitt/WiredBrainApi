@@ -32,13 +32,13 @@ jobs:
       - name: Set npm registry explicitly
         run: |
           npm config set registry https://registry.npmjs.org/
-          npm config set always-auth false
           npm config delete //registry.npmjs.org/:_authToken || true
 
       - name: Diagnostics (npm config)
         run: |
           echo "=== npm config get registry ==="; npm config get registry
           echo "=== npm whoami (expect failure for anon) ==="; npm whoami || true
+          echo "=== npm config list (redacted) ==="; npm config list --json | sed 's/_authToken/REDACTED/g'
           echo "=== list root files ==="; ls -al
           echo "=== .npmrc if present ==="; test -f .npmrc && cat .npmrc || echo '(none)'
           echo "=== client .npmrc if present ==="; test -f wiredbrain-client/.npmrc && cat wiredbrain-client/.npmrc || echo '(none)'
