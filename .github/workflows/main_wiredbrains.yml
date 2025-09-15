@@ -33,6 +33,12 @@ jobs:
            --collect "XPlat Code Coverage" `
            --results-directory TestResults `
            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+
+      - name: Install ReportGenerator (fallback)
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+      - name: Add .dotnet tools to PATH
+        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
            
       - id: coverage
         name: Generate Coverage Report
@@ -70,6 +76,7 @@ jobs:
           package: .
 
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EA825A53AF1642A98D4B9D60ED91F044 }}
+
 
 
 
