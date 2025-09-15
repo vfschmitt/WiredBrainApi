@@ -32,16 +32,14 @@ jobs:
       - name: Set npm registry explicitly
         run: npm config set registry https://registry.npmjs.org/
 
-      - name: Install client dependencies (clean + retry)
+      - name: Install client dependencies (lock aware)
         run: |
           cd wiredbrain-client
-          rm -rf node_modules package-lock.json
-          echo "First attempt..."
-          if ! npm ci; then
-            echo "First attempt failed; retrying after clearing cache" >&2
-            npm cache clean --force
-            sleep 5
-            npm ci
+          echo "Package-lock present?"; test -f package-lock.json && echo YES || echo NO
+          if test -f package-lock.json; then
+            npm ci || (echo "npm ci failed; fallback to npm install" >&2 && npm install)
+          else
+            npm install
           fi
 
       - name: Build React client
