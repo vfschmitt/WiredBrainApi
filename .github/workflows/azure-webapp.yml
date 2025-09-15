@@ -1,0 +1,48 @@
+name: Deploy API + React Client to Azure Web App
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    env:
+      DOTNET_VERSION: '8.0.x'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: wiredbrain-client/package-lock.json
+
+      - name: Restore .NET dependencies
+        run: dotnet restore WiredBrainApi.sln
+
+      - name: Build and Publish (includes React client build)
+        run: dotnet publish .\WiredBrainApi.Web\WiredBrainApi.Web.csproj -c Release -o publish
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapp-package
+          path: publish
+
+      # Deployment step requires AZURE_WEBAPP_PUBLISH_PROFILE secret
+      - name: Deploy to Azure Web App
+        if: success()
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'WiredBrains'
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          package: publish

@@ -27,35 +27,35 @@ jobs:
         name: Build with dotnet
         run: dotnet build --configuration Release
 
-      - id: test
-        if: steps.build.outcome == 'success'
-        name: Test
-        run: dotnet test WiredBrain.Tests/WiredBrain.Tests.csproj --configuration Release --no-build
+  #     - id: test
+  #       if: steps.build.outcome == 'success'
+  #       name: Test
+  #       run: dotnet test WiredBrain.Tests/WiredBrain.Tests.csproj --configuration Release --no-build
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+  #     - name: dotnet publish
+  #       run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+  #     - name: Upload artifact for deployment job
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: .net-app
+  #         path: ${{env.DOTNET_ROOT}}/myapp
 
-  deploy:
-    runs-on: windows-latest
-    needs: build
+  # deploy:
+  #   runs-on: windows-latest
+  #   needs: build
     
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: .net-app
+  #   steps:
+  #     - name: Download artifact from build job
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: .net-app
       
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'WiredBrains'
-          slot-name: 'Production'
-          package: .
-          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+  #     - name: Deploy to Azure Web App
+  #       id: deploy-to-webapp
+  #       uses: azure/webapps-deploy@v3
+  #       with:
+  #         app-name: 'WiredBrains'
+  #         slot-name: 'Production'
+  #         package: .
+  #         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}

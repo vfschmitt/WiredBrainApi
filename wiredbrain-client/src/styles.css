@@ -1,0 +1,6 @@
+body { font-family: system-ui, Arial, sans-serif; margin: 0; padding: 1rem; background:#fafafa; color:#222; }
+.app-container { max-width: 960px; margin: 0 auto; }
+.inventory-lookup label { display: block; margin-bottom: .5rem; }
+.inventory-table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+.inventory-table th, .inventory-table td { border: 1px solid #ccc; padding: .5rem .75rem; text-align: left; }
+.error { color: #b00020; }

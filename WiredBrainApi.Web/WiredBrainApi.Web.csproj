@@ -10,4 +10,21 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+    <!-- React client build integration -->
+    <PropertyGroup>
+      <ClientDir>..\wiredbrain-client</ClientDir>
+      <ClientBuildCmd>npm run build</ClientBuildCmd>
+    </PropertyGroup>
+
+    <Target Name="BuildClient" BeforeTargets="PrepareForPublish">
+      <Message Text="Building React client..." Importance="high" />
+      <Exec WorkingDirectory="$(ClientDir)" Command="npm install" Condition="!Exists('$(ClientDir)\node_modules')" />
+      <Exec WorkingDirectory="$(ClientDir)" Command="$(ClientBuildCmd)" />
+      <ItemGroup>
+        <DistFiles Include="$(ClientDir)\dist\**\*.*" />
+      </ItemGroup>
+      <Message Text="Copying client build to wwwroot" Importance="high" />
+      <Copy SourceFiles="@(DistFiles)" DestinationFiles="@(DistFiles->'%(FullPath)'.Replace('$(ClientDir)\\dist','wwwroot'))" SkipUnchangedFiles="true" />
+    </Target>
+
 </Project>

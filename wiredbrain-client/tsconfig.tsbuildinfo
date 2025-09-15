@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/__tests__/inventorylookup.test.tsx","./src/__tests__/inventoryservice.test.ts","./src/components/inventorylookup.tsx","./src/services/inventoryservice.ts"],"version":"5.9.2"}
