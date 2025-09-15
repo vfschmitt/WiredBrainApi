@@ -12,7 +12,7 @@
 
   <!-- React client integration (copy-only by default). Set BuildClient=true to force build. -->
   <PropertyGroup>
-    <ClientDir>..\wiredbrain-client</ClientDir>
+  <ClientDir>../wiredbrain-client</ClientDir>
     <ClientBuildCmd>npm run build</ClientBuildCmd>
     <BuildClient>false</BuildClient>
   </PropertyGroup>

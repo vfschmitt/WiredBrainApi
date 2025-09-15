@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       DOTNET_VERSION: '8.0.x'
     steps:
@@ -29,18 +29,28 @@ jobs:
       - name: Restore .NET dependencies
         run: dotnet restore WiredBrainApi.sln
 
-      - name: Install client dependencies
+      - name: Set npm registry explicitly
+        run: npm config set registry https://registry.npmjs.org/
+
+      - name: Install client dependencies (clean + retry)
         run: |
           cd wiredbrain-client
-          npm ci
+          rm -rf node_modules package-lock.json
+          echo "First attempt..."
+          if ! npm ci; then
+            echo "First attempt failed; retrying after clearing cache" >&2
+            npm cache clean --force
+            sleep 5
+            npm ci
+          fi
 
       - name: Build React client
         run: |
           cd wiredbrain-client
-          npm run build
+          npm run build --if-present
 
       - name: Publish API (copy prebuilt client)
-        run: dotnet publish .\WiredBrainApi.Web\WiredBrainApi.Web.csproj -c Release -o publish -p:BuildClient=false
+        run: dotnet publish ./WiredBrainApi.Web/WiredBrainApi.Web.csproj -c Release -o publish -p:BuildClient=false
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
