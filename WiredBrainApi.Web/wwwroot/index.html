@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>WiredBrain API</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 2rem; background:#f9fafb; color:#222; }
+    h1 { color:#6b2b06; }
+    code { background:#eee; padding:2px 4px; border-radius:4px; }
+    footer { margin-top:3rem; font-size:.8rem; color:#555; }
+  </style>
+</head>
+<body>
+  <h1>Hello, World 👋</h1>
+  <p>Your WiredBrain API is running.</p>
+  <p>Try the coffee inventory endpoint: <code>/api/Inventory/1</code></p>
+  <p>Swagger UI (in Development environment): <code>/swagger</code></p>
+  <footer>Deployed at <span id="ts"></span></footer>
+  <script>document.getElementById('ts').textContent = new Date().toISOString();</script>
+</body>
+</html>

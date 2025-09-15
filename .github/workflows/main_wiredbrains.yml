@@ -23,8 +23,14 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      - name: Build with dotnet
+      - id: build
+        name: Build with dotnet
         run: dotnet build --configuration Release
+
+      - id: test
+        if: steps.build.outcome == 'success'
+        name: Test
+        run: dotnet test WiredBrain.Tests/WiredBrain.Tests.csproj --configuration Release --no-build
 
       - name: dotnet publish
         run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"

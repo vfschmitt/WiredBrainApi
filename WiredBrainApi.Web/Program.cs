@@ -22,8 +22,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Enable default file mapping (e.g., index.html) and static file serving
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+// Expose Program class for integration testing (WebApplicationFactory)
+public partial class Program { }
